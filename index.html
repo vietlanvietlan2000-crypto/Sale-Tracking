@@ -450,6 +450,9 @@ async function openBarcodeScanner(target={mode:'global'}){
 }
 async function startBarcodeScanner(){
   stopBarcodeScanner(false);
+  // stopBarcodeScanner() dùng scannerBusy để chặn callback cũ.
+  // Khi bắt đầu phiên quét mới phải mở khóa lại.
+  scannerBusy=false;
   try{
     if(!navigator.mediaDevices?.getUserMedia)throw new Error('Trình duyệt không hỗ trợ camera.');
     scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
@@ -457,9 +460,13 @@ async function startBarcodeScanner(){
     if('BarcodeDetector' in window){
       let formats=barcodeFormats();
       try{const supported=await BarcodeDetector.getSupportedFormats();formats=formats.filter(f=>supported.includes(f));}catch(e){}
-      scannerDetector=new BarcodeDetector({formats:formats.length?formats:undefined});
-      $('#scannerStatus').textContent='Đang quét… Hãy đưa mã vạch vào khung.';
-      scannerLoop();
+      if(formats.length){
+        scannerDetector=new BarcodeDetector({formats});
+        $('#scannerStatus').textContent='Đang quét… Hãy đưa mã vạch vào khung.';
+        scannerLoop();
+      }else{
+        await startHtml5Fallback();
+      }
     }else{
       await startHtml5Fallback();
     }
