@@ -441,83 +441,258 @@ function addItemRow(){
 
 
 // ===== Barcode scanner =====
-let scannerStream=null, scannerRAF=null, scannerDetector=null, scannerTarget=null, scannerFallback=null, scannerBusy=false;
-function barcodeFormats(){return ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','code_93','itf','codabar','data_matrix','qr_code'];}
+let scannerStream=null, scannerRAF=null, scannerDetector=null, scannerTarget=null, scannerFallback=null;
+let scannerBusy=false, scannerSession=0;
+
+function barcodeFormats(){
+  return ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','code_93','itf','codabar','data_matrix','qr_code'];
+}
+
 async function openBarcodeScanner(target={mode:'global'}){
-  scannerTarget=target;scannerBusy=false;$('#scannerResult').classList.add('hidden');$('#scannerResult').innerHTML='';openModal('barcodeScannerModal');
+  scannerTarget=target;
+  scannerBusy=false;
+  $('#scannerResult').classList.add('hidden');
+  $('#scannerResult').innerHTML='';
+  openModal('barcodeScannerModal');
   $('#scannerStatus').textContent='Đang xin quyền camera…';
   await startBarcodeScanner();
 }
+
 async function startBarcodeScanner(){
-  stopBarcodeScanner(false);
-  // stopBarcodeScanner() dùng scannerBusy để chặn callback cũ.
-  // Khi bắt đầu phiên quét mới phải mở khóa lại.
+  const session=++scannerSession;
+  await stopBarcodeScanner(false);
+  if(session!==scannerSession)return;
+
   scannerBusy=false;
+
   try{
-    if(!navigator.mediaDevices?.getUserMedia)throw new Error('Trình duyệt không hỗ trợ camera.');
-    scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
-    const video=$('#scannerVideo');video.srcObject=scannerStream;await video.play();
+    if(!navigator.mediaDevices?.getUserMedia){
+      throw new Error('Trình duyệt không hỗ trợ camera.');
+    }
+
+    scannerStream=await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode:{ideal:'environment'},
+        width:{ideal:1280},
+        height:{ideal:720}
+      },
+      audio:false
+    });
+
+    if(session!==scannerSession){
+      scannerStream.getTracks().forEach(t=>t.stop());
+      scannerStream=null;
+      return;
+    }
+
+    const video=$('#scannerVideo');
+    video.srcObject=scannerStream;
+    video.setAttribute('playsinline','');
+    video.muted=true;
+    await video.play();
+
+    if(session!==scannerSession)return;
+
     if('BarcodeDetector' in window){
       let formats=barcodeFormats();
-      try{const supported=await BarcodeDetector.getSupportedFormats();formats=formats.filter(f=>supported.includes(f));}catch(e){}
+      try{
+        const supported=await BarcodeDetector.getSupportedFormats();
+        formats=formats.filter(f=>supported.includes(f));
+      }catch(e){}
+
       if(formats.length){
         scannerDetector=new BarcodeDetector({formats});
         $('#scannerStatus').textContent='Đang quét… Hãy đưa mã vạch vào khung.';
-        scannerLoop();
+        scannerLoop(session);
       }else{
-        await startHtml5Fallback();
+        await startHtml5Fallback(session);
       }
     }else{
-      await startHtml5Fallback();
+      await startHtml5Fallback(session);
     }
   }catch(e){
+    if(session!==scannerSession)return;
     $('#scannerStatus').textContent='Không thể mở camera: '+(e.message||e);
     toast('Hãy cấp quyền camera cho trình duyệt rồi thử lại.','error');
   }
 }
-async function scannerLoop(){
-  if(!scannerDetector||scannerBusy)return;
+
+async function scannerLoop(session){
+  if(session!==scannerSession || !scannerDetector || scannerBusy)return;
+
   const video=$('#scannerVideo');
+
   try{
-    if(video.readyState>=2){const codes=await scannerDetector.detect(video);if(codes?.length){handleBarcodeScan(codes[0].rawValue);return;}}
-  }catch(e){}
-  scannerRAF=requestAnimationFrame(scannerLoop);
+    if(video.readyState>=2){
+      const codes=await scannerDetector.detect(video);
+      if(session!==scannerSession || scannerBusy)return;
+      if(codes?.length){
+        handleBarcodeScan(codes[0].rawValue,session);
+        return;
+      }
+    }
+  }catch(e){
+    // Một frame lỗi không được phép làm chết vòng quét.
+  }
+
+  if(session===scannerSession && !scannerBusy){
+    scannerRAF=requestAnimationFrame(()=>scannerLoop(session));
+  }
 }
-async function startHtml5Fallback(){
+
+async function startHtml5Fallback(session){
+  if(session!==scannerSession)return;
+
   $('#scannerStatus').textContent='Trình duyệt chưa có BarcodeDetector. Đang tải bộ quét tương thích…';
+
   if(!window.Html5Qrcode){
-    await new Promise((resolve,reject)=>{const sc=document.createElement('script');sc.src='https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';sc.onload=resolve;sc.onerror=()=>reject(new Error('Không tải được bộ quét dự phòng.'));document.head.appendChild(sc)});
+    await new Promise((resolve,reject)=>{
+      const sc=document.createElement('script');
+      sc.src='https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
+      sc.onload=resolve;
+      sc.onerror=()=>reject(new Error('Không tải được bộ quét dự phòng.'));
+      document.head.appendChild(sc);
+    });
   }
-  // Stop our raw stream; html5-qrcode will own the camera.
-  if(scannerStream){scannerStream.getTracks().forEach(t=>t.stop());scannerStream=null;}
-  const stage=$('#scannerStage');stage.innerHTML='<div id="html5QrReader" style="width:100%"></div>';
-  scannerFallback=new Html5Qrcode('html5QrReader');
-  await scannerFallback.start({facingMode:'environment'},{fps:10,qrbox:{width:260,height:180}},decoded=>handleBarcodeScan(decoded),()=>{});
-  $('#scannerStatus').textContent='Đang quét… Hãy đưa mã vạch vào khung.';
+
+  if(session!==scannerSession)return;
+
+  // Raw getUserMedia stream phải được giải phóng trước khi html5-qrcode
+  // xin quyền camera của riêng nó.
+  if(scannerStream){
+    scannerStream.getTracks().forEach(t=>t.stop());
+    scannerStream=null;
+  }
+
+  const stage=$('#scannerStage');
+  stage.innerHTML='<div id="html5QrReader" style="width:100%"></div>';
+
+  const qr=new Html5Qrcode('html5QrReader');
+  scannerFallback=qr;
+
+  await qr.start(
+    {facingMode:'environment'},
+    {fps:10,qrbox:{width:260,height:180}},
+    decoded=>{
+      if(session===scannerSession && !scannerBusy){
+        handleBarcodeScan(decoded,session);
+      }
+    },
+    ()=>{}
+  );
+
+  if(session===scannerSession){
+    $('#scannerStatus').textContent='Đang quét… Hãy đưa mã vạch vào khung.';
+  }
 }
-function handleBarcodeScan(raw){
-  if(scannerBusy)return;scannerBusy=true;const code=String(raw||'').trim();if(!code)return;
+
+function handleBarcodeScan(raw,session=scannerSession){
+  if(session!==scannerSession || scannerBusy)return;
+
+  const code=String(raw||'').trim();
+  if(!code)return;
+
+  scannerBusy=true;
   stopBarcodeScanner(false);
-  const p=state.products.find(x=>x.active!==false&&String(x.barcode||'').trim()===code);
+
+  const normalized=code.toLowerCase();
+  const p=state.products.find(x=>
+    x.active!==false &&
+    String(x.barcode||'').trim().toLowerCase()===normalized
+  );
+
   if(scannerTarget?.mode==='productForm'){
-    $('#barcode').value=code;$('#scannerStatus').textContent='Đã đọc: '+code;closeBarcodeScanner();toast('Đã điền mã vạch.','success');return;
+    $('#barcode').value=code;
+    closeBarcodeScanner();
+    toast('Đã điền mã vạch.','success');
+    return;
   }
+
   if(scannerTarget?.mode==='item'&&scannerTarget.row){
-    if(!p){closeBarcodeScanner();toast('Không tìm thấy sản phẩm có mã vạch '+code+'.','error');return;}
-    setProductOnRow(scannerTarget.row,p.id);closeBarcodeScanner();toast(`Đã chọn ${p.sku} — ${p.name}.`,'success');return;
+    if(!p){
+      closeBarcodeScanner();
+      toast('Không tìm thấy sản phẩm có mã vạch '+code+'.','error');
+      return;
+    }
+    setProductOnRow(scannerTarget.row,p.id);
+    closeBarcodeScanner();
+    toast(`Đã chọn ${p.sku} — ${p.name}.`,'success');
+    return;
   }
+
   renderGlobalScanResult(code,p);
 }
+
 function renderGlobalScanResult(code,p){
-  openModal('barcodeScannerModal');$('#scannerResult').classList.remove('hidden');
-  $('#scannerResult').innerHTML=p?`<h4>${esc(p.sku)} — ${esc(p.name)}</h4><div style="color:var(--muted);font-size:13px">Mã vạch: ${esc(code)} · ${esc(p.category||'Chưa phân nhóm')} · Giá bán: ${money(p.price||0)}</div><div class="toolbar" style="margin:12px 0 0"><button type="button" class="btn orange" onclick="globalScanToSale('${esc(p.id)}')">＋ Bán sản phẩm</button><button type="button" class="btn teal" onclick="globalScanToPurchase('${esc(p.id)}')">＋ Nhập sản phẩm</button></div>`:`<h4>Chưa có sản phẩm</h4><div style="color:var(--muted);font-size:13px">Mã vạch <b>${esc(code)}</b> chưa tồn tại trong danh mục.</div><div class="toolbar" style="margin:12px 0 0"><button type="button" class="btn orange" onclick="globalScanCreateProduct('${esc(code)}')">＋ Tạo sản phẩm</button></div>`;
+  openModal('barcodeScannerModal');
+  $('#scannerResult').classList.remove('hidden');
+
+  $('#scannerResult').innerHTML=p
+    ? `<h4>${esc(p.sku)} — ${esc(p.name)}</h4><div style="color:var(--muted);font-size:13px">Mã vạch: ${esc(code)} · ${esc(p.category||'Chưa phân nhóm')} · Giá bán: ${money(p.price||0)}</div><div class="toolbar" style="margin:12px 0 0"><button type="button" class="btn orange" onclick="globalScanToSale('${esc(p.id)}')">＋ Bán sản phẩm</button><button type="button" class="btn teal" onclick="globalScanToPurchase('${esc(p.id)}')">＋ Nhập sản phẩm</button></div>`
+    : `<h4>Chưa có sản phẩm</h4><div style="color:var(--muted);font-size:13px">Mã vạch <b>${esc(code)}</b> chưa tồn tại trong danh mục.</div><div class="toolbar" style="margin:12px 0 0"><button type="button" class="btn orange" onclick="globalScanCreateProduct('${esc(code)}')">＋ Tạo sản phẩm</button></div>`;
+
   $('#scannerStatus').textContent='Đã đọc mã vạch: '+code;
 }
-function globalScanToSale(productId){closeBarcodeScanner();openTransaction('sale');setTimeout(()=>{const row=$$('#itemRows .item-row')[0];if(row)setProductOnRow(row,productId)},60)}
-function globalScanToPurchase(productId){closeBarcodeScanner();openTransaction('purchase');setTimeout(()=>{const row=$$('#itemRows .item-row')[0];if(row)setProductOnRow(row,productId)},60)}
-function globalScanCreateProduct(barcode){closeBarcodeScanner();openProduct();$('#barcode').value=barcode;}
-function closeBarcodeScanner(){stopBarcodeScanner(true);closeModal('barcodeScannerModal');scannerTarget=null;}
-function stopBarcodeScanner(clearStage=true){if(scannerRAF)cancelAnimationFrame(scannerRAF);scannerRAF=null;scannerDetector=null;scannerBusy=true;if(scannerFallback){scannerFallback.stop().catch(()=>{});scannerFallback.clear().catch(()=>{});scannerFallback=null;}if(scannerStream){scannerStream.getTracks().forEach(t=>t.stop());scannerStream=null;}if(clearStage){const stage=$('#scannerStage');stage.innerHTML='<video id="scannerVideo" playsinline muted></video><div class="scanner-overlay"><div class="scanner-frame"></div></div>';}}
+
+function globalScanToSale(productId){
+  closeBarcodeScanner();
+  openTransaction('sale');
+  setTimeout(()=>{
+    const row=$$('#itemRows .item-row')[0];
+    if(row)setProductOnRow(row,productId);
+  },60);
+}
+
+function globalScanToPurchase(productId){
+  closeBarcodeScanner();
+  openTransaction('purchase');
+  setTimeout(()=>{
+    const row=$$('#itemRows .item-row')[0];
+    if(row)setProductOnRow(row,productId);
+  },60);
+}
+
+function globalScanCreateProduct(barcode){
+  closeBarcodeScanner();
+  openProduct();
+  $('#barcode').value=barcode;
+}
+
+function closeBarcodeScanner(){
+  scannerSession++;
+  stopBarcodeScanner(true);
+  closeModal('barcodeScannerModal');
+  scannerTarget=null;
+}
+
+async function stopBarcodeScanner(clearStage=true){
+  if(scannerRAF){
+    cancelAnimationFrame(scannerRAF);
+    scannerRAF=null;
+  }
+
+  scannerDetector=null;
+  scannerBusy=true;
+
+  const fallback=scannerFallback;
+  scannerFallback=null;
+
+  if(fallback){
+    try{await fallback.stop();}catch(e){}
+    try{await fallback.clear();}catch(e){}
+  }
+
+  if(scannerStream){
+    scannerStream.getTracks().forEach(t=>t.stop());
+    scannerStream=null;
+  }
+
+  if(clearStage){
+    const stage=$('#scannerStage');
+    stage.innerHTML='<video id="scannerVideo" playsinline muted></video><div class="scanner-overlay"><div class="scanner-frame"></div></div>';
+  }
+}
+
 function operatingExpenseTotal(from,to){return (state.expenses||[]).filter(e=>e.date>=from&&e.date<=to).reduce((s,e)=>s+(Number(e.amount)||0),0)}
 function allExpenseTotal(from,to){return operatingExpenseTotal(from,to)+state.sales.filter(t=>t.date>=from&&t.date<=to).reduce((s,t)=>s+orderExpenseTotal(t),0)}
 function nextProductSku(){
@@ -609,6 +784,12 @@ function renderInlineProductResults(row, query=''){
     return;
   }
   box.innerHTML=products.map(p=>`<button type="button" data-product-id="${esc(p.id)}"><b>${esc(p.sku)} — ${esc(p.name)}</b><small>${p.barcode?'Mã vạch: '+esc(p.barcode)+' · ':''}${esc(p.category||'Chưa phân nhóm')} · Giá bán: ${money(p.price||0)}</small></button>`).join('');
+  box.querySelectorAll('button[data-product-id]').forEach(btn=>{
+    btn.addEventListener('mousedown',e=>e.preventDefault());
+    btn.addEventListener('click',()=>{
+      setProductOnRow(row,btn.dataset.productId);
+    });
+  });
   box.classList.remove('hidden');
 }
 function openProductPicker(row){
@@ -1032,7 +1213,13 @@ $$('#mobileBottomNav button[data-mobile-page]').forEach(b=>b.addEventListener('c
 $('#mobileScanBtn')?.addEventListener('click',()=>openBarcodeScanner({mode:'global'}));
 $('#scanProductBarcodeBtn')?.addEventListener('click',()=>openBarcodeScanner({mode:'productForm'}));
 $('#scannerRetryBtn')?.addEventListener('click',()=>startBarcodeScanner());
-$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)navigate(b.dataset.page)});$('#quickPurchase').onclick=()=>openTransaction('purchase');$('#quickSale').onclick=()=>openTransaction('sale');$('#menuBtn').onclick=()=>{$('#sidebar').classList.add('open');$('#mobileShade').classList.add('show')};$('#mobileShade').onclick=()=>{$('#sidebar').classList.remove('open');$('#mobileShade').classList.remove('show')};['customerSearch','customerDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderCustomers));['supplierSearch','supplierDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderSuppliers));['productSearch','categoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderProducts));$('#purchaseSearch').addEventListener('input',()=>renderTransactions('purchase'));$('#saleSearch').addEventListener('input',()=>renderTransactions('sale'));$('#payment').addEventListener('change',updatePaidField);$('#paidAmount').addEventListener('input',updatePaidField);['expenseSearch','expenseCategoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderExpenses));['inventorySearch','stockFilter'].forEach(id=>$('#'+id).addEventListener('input',renderInventory));$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));window.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.modal').forEach(m=>m.classList.add('hidden'))});window.addEventListener('resize',()=>{if($('#dashboard').classList.contains('active'))renderDashboard();if($('#reports').classList.contains('active'))renderReports()});
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)navigate(b.dataset.page)});$('#quickPurchase').onclick=()=>openTransaction('purchase');$('#quickSale').onclick=()=>openTransaction('sale');$('#menuBtn').onclick=()=>{$('#sidebar').classList.add('open');$('#mobileShade').classList.add('show')};$('#mobileShade').onclick=()=>{$('#sidebar').classList.remove('open');$('#mobileShade').classList.remove('show')};['customerSearch','customerDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderCustomers));['supplierSearch','supplierDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderSuppliers));['productSearch','categoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderProducts));$('#purchaseSearch').addEventListener('input',()=>renderTransactions('purchase'));$('#saleSearch').addEventListener('input',()=>renderTransactions('sale'));$('#payment').addEventListener('change',updatePaidField);$('#paidAmount').addEventListener('input',updatePaidField);['expenseSearch','expenseCategoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderExpenses));['inventorySearch','stockFilter'].forEach(id=>$('#'+id).addEventListener('input',renderInventory));$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){if(m.id==='barcodeScannerModal')closeBarcodeScanner();else closeModal(m.id)}}));
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(!$('#barcodeScannerModal').classList.contains('hidden'))closeBarcodeScanner();
+    else $$('.modal').forEach(m=>m.classList.add('hidden'));
+  }
+});window.addEventListener('resize',()=>{if($('#dashboard').classList.contains('active'))renderDashboard();if($('#reports').classList.contains('active'))renderReports()});
 $('#productPickerSearch').addEventListener('input',renderProductPickerRows);
 $('#productPickerCategory').addEventListener('change',renderProductPickerRows);
 document.addEventListener('mousedown',e=>{
