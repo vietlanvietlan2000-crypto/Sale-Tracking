@@ -63,13 +63,225 @@
 
 .product-thumb{width:48px;height:48px;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#eee8dd;display:block;cursor:zoom-in}.product-thumb-empty{width:48px;height:48px;border-radius:10px;border:1px dashed #cfc8ba;background:#f7f4ec;display:grid;place-items:center;color:#9aa3aa;font-size:20px;cursor:default}.product-image-editor{display:flex;gap:16px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#faf8f2}.product-image-preview-wrap{width:110px;height:110px;flex:0 0 110px;border-radius:14px;overflow:hidden;background:#eee8dd;border:1px solid var(--line);display:grid;place-items:center}.product-image-preview{width:100%;height:100%;object-fit:contain;background:#fff}.product-image-empty{display:grid;place-items:center;gap:5px;color:var(--muted);font-size:30px;text-align:center}.product-image-empty span{font-size:11px}.product-image-actions{display:grid;gap:7px;align-content:center}.product-image-viewer-dialog{width:min(900px,100%)}.product-image-viewer-body{display:flex;justify-content:center;align-items:center;min-height:420px;background:#f1eee6}.product-image-viewer-body img{max-width:100%;max-height:68vh;width:auto;height:auto;object-fit:contain;border-radius:12px;background:#fff;display:block}.item-product-card{display:flex;align-items:center;gap:8px}.item-product-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;border:1px solid var(--line);background:#eee8dd;cursor:zoom-in;flex:0 0 38px}.item-product-thumb-empty{width:38px;height:38px;border-radius:8px;border:1px dashed #cfc8ba;background:#f7f4ec;display:grid;place-items:center;color:#9aa3aa;font-size:16px;flex:0 0 38px}.product-inline-results .result-product{display:flex;align-items:center;gap:9px}.product-inline-results .result-product img{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:0 0 40px}.product-picker-table .picker-product-cell{display:flex;align-items:center;gap:9px}.product-picker-table .picker-product-cell img{width:42px;height:42px;border-radius:9px;object-fit:cover;border:1px solid var(--line);flex:0 0 42px}.product-picker-table .picker-product-cell .picker-product-text{min-width:0}.product-picker-table .picker-product-cell .picker-product-text b{display:block}.product-picker-table .picker-product-cell .picker-product-text small{display:block;color:var(--muted);margin-top:2px}.transaction-product-display{display:flex;align-items:center;gap:8px}.transaction-product-display img{width:42px;height:42px;border-radius:9px;object-fit:cover;border:1px solid var(--line);cursor:zoom-in}.transaction-product-display .product-no-image{width:42px;height:42px;border-radius:9px;border:1px dashed #cfc8ba;background:#f7f4ec;display:grid;place-items:center;color:#9aa3aa}.product-picker-table .product-thumb-empty{width:42px;height:42px}.product-picker-table .product-thumb{width:42px;height:42px}.product-image-loading{opacity:.55;pointer-events:none}
 @media(max-width:780px){.product-image-editor{align-items:flex-start}.product-image-preview-wrap{width:90px;height:90px;flex-basis:90px}.product-image-viewer-body{min-height:300px}.item-product-card{gap:6px}}
+
+/* ===== V10.3: Chiết khấu + hóa đơn bán lẻ K57 ===== */
+.sale-discount-field{display:none}
+.invoice-modal .dialog{width:min(420px,100%);background:#e9e5dc}
+.invoice-modal .dialog-body{padding:14px;display:flex;justify-content:center}
+.invoice-paper{width:57mm;max-width:100%;min-height:38mm;background:#fff;color:#111;padding:4mm 3mm;font-family:"Arial Narrow",Arial,sans-serif;font-size:10px;line-height:1.25;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+.invoice-paper *{box-sizing:border-box}
+.invoice-header{text-align:center;border-bottom:1px dashed #777;padding-bottom:5px;margin-bottom:5px}
+.invoice-header h4{font-size:13px;margin:0 0 2px;font-weight:900;text-transform:uppercase}
+.invoice-header .invoice-meta{font-size:9px}
+.invoice-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.invoice-table th{font-size:8.5px;text-align:left;border-bottom:1px solid #222;padding:2px 0;font-weight:900}
+.invoice-table td{padding:2.5px 0;vertical-align:top;border-bottom:1px dotted #bbb}
+.invoice-table .stt{width:7%;text-align:center}
+.invoice-table .product{width:43%;word-break:break-word}
+.invoice-table .unit-price{width:23%;text-align:right}
+.invoice-table .amount{width:27%;text-align:right}
+.invoice-total{border-top:1px dashed #555;margin-top:5px;padding-top:4px}
+.invoice-total div{display:flex;justify-content:space-between;gap:8px;padding:1px 0}
+.invoice-total .discount{color:#9d341d}
+.invoice-total .grand{font-size:12px;font-weight:900;border-top:1px solid #111;margin-top:3px;padding-top:3px}
+.invoice-footer{text-align:center;border-top:1px dashed #777;margin-top:6px;padding-top:5px;font-size:8.5px}
+.invoice-print-actions{display:flex;justify-content:center;gap:8px;padding:0 14px 14px}
+@media(max-width:780px){
+  .invoice-modal .dialog{max-height:96vh;width:min(96vw,560px)}
+  .invoice-modal .dialog-body{padding:14px 10px;overflow:auto}
+  .invoice-paper{
+    width:86mm;
+    max-width:none;
+    min-height:57mm;
+    padding:5.5mm 4.5mm;
+    font-size:14px;
+    line-height:1.35;
+    box-shadow:0 5px 24px rgba(0,0,0,.18);
+  }
+  .invoice-header{padding-bottom:8px;margin-bottom:8px}
+  .invoice-header h4{font-size:18px;margin-bottom:4px}
+  .invoice-header .invoice-meta{font-size:12px}
+  .invoice-table th{font-size:11px;padding:4px 0}
+  .invoice-table td{padding:4px 0}
+  .invoice-total{margin-top:8px;padding-top:6px}
+  .invoice-total div{padding:3px 0}
+  .invoice-total .grand{font-size:16px;margin-top:5px;padding-top:5px}
+  .invoice-footer{margin-top:9px;padding-top:7px;font-size:11px}
+}
+@media print{
+  @page{size:57mm 38mm;margin:0}
+  body.printing-invoice>*{display:none!important}
+  body.printing-invoice #invoiceModal{display:grid!important;position:static!important;background:#fff!important;padding:0!important}
+  body.printing-invoice #invoiceModal .dialog{display:block!important;width:57mm!important;max-width:57mm!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important}
+  body.printing-invoice #invoiceModal .dialog-head,
+  body.printing-invoice #invoiceModal .invoice-print-actions{display:none!important}
+  body.printing-invoice #invoiceModal .dialog-body{display:block!important;padding:0!important}
+  body.printing-invoice .invoice-paper{width:57mm!important;max-width:57mm!important;min-height:38mm!important;box-shadow:none!important;padding:3mm 2.5mm!important;font-size:10px!important;line-height:1.25!important}
+  body.printing-invoice .invoice-header h4{font-size:13px!important}
+  body.printing-invoice .invoice-header .invoice-meta{font-size:9px!important}
+  body.printing-invoice .invoice-table th{font-size:8.5px!important;padding:2px 0!important}
+  body.printing-invoice .invoice-table td{padding:2.5px 0!important}
+  body.printing-invoice .invoice-total{margin-top:5px!important;padding-top:4px!important}
+  body.printing-invoice .invoice-total div{padding:1px 0!important}
+  body.printing-invoice .invoice-total .grand{font-size:12px!important;margin-top:3px!important;padding-top:3px!important}
+  body.printing-invoice .invoice-footer{margin-top:6px!important;padding-top:5px!important;font-size:8.5px!important}
+}
+
+
+/* ===== V10.4: Hóa đơn xem trên màn hình lớn + điện thoại =====
+   Chỉ phóng to bản XEM. Kích thước IN vẫn giữ K57 (57 × 38 mm).
+*/
+.invoice-modal .dialog{
+  width:min(560px,calc(100vw - 32px));
+  max-height:94vh;
+}
+.invoice-modal .dialog-body{
+  padding:22px 18px;
+  overflow:auto;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+.invoice-paper{
+  width:min(420px,88vw);
+  max-width:none;
+  min-height:auto;
+  padding:20px 18px;
+  font-size:14px;
+  line-height:1.35;
+  box-shadow:0 6px 26px rgba(0,0,0,.18);
+}
+.invoice-header{
+  padding-bottom:10px;
+  margin-bottom:10px;
+}
+.invoice-header h4{
+  font-size:20px;
+  margin-bottom:5px;
+}
+.invoice-header .invoice-meta{
+  font-size:13px;
+}
+.invoice-table th{
+  font-size:11px;
+  padding:5px 0;
+}
+.invoice-table td{
+  padding:6px 0;
+}
+.invoice-total{
+  margin-top:10px;
+  padding-top:7px;
+}
+.invoice-total div{
+  padding:4px 0;
+}
+.invoice-total .grand{
+  font-size:18px;
+  margin-top:6px;
+  padding-top:6px;
+}
+.invoice-footer{
+  margin-top:11px;
+  padding-top:8px;
+  font-size:11px;
+}
+.invoice-print-actions{
+  padding:0 18px 18px;
+}
+
+@media(max-width:780px){
+  .invoice-modal{
+    padding:8px;
+    align-items:center;
+  }
+  .invoice-modal .dialog{
+    width:min(96vw,560px);
+    max-height:96vh;
+    border-radius:18px;
+  }
+  .invoice-modal .dialog-body{
+    padding:16px 10px;
+  }
+  .invoice-paper{
+    width:min(420px,90vw);
+    padding:19px 16px;
+    font-size:14.5px;
+    line-height:1.38;
+  }
+  .invoice-header h4{
+    font-size:20px;
+  }
+  .invoice-header .invoice-meta{
+    font-size:12.5px;
+  }
+  .invoice-table th{
+    font-size:11px;
+    padding:5px 0;
+  }
+  .invoice-table td{
+    padding:6px 0;
+  }
+  .invoice-total .grand{
+    font-size:18px;
+  }
+}
+
+/* Không để kích thước xem ảnh hưởng đến bản in K57. */
+@media print{
+  body.printing-invoice .invoice-paper{
+    width:57mm!important;
+    max-width:57mm!important;
+    min-height:38mm!important;
+    padding:3mm 2.5mm!important;
+    font-size:10px!important;
+    line-height:1.25!important;
+    box-shadow:none!important;
+  }
+  body.printing-invoice .invoice-header{
+    padding-bottom:5px!important;
+    margin-bottom:5px!important;
+  }
+  body.printing-invoice .invoice-header h4{
+    font-size:13px!important;
+    margin-bottom:2px!important;
+  }
+  body.printing-invoice .invoice-header .invoice-meta{
+    font-size:9px!important;
+  }
+  body.printing-invoice .invoice-table th{
+    font-size:8.5px!important;
+    padding:2px 0!important;
+  }
+  body.printing-invoice .invoice-table td{
+    padding:2.5px 0!important;
+  }
+  body.printing-invoice .invoice-total{
+    margin-top:5px!important;
+    padding-top:4px!important;
+  }
+  body.printing-invoice .invoice-total div{
+    padding:1px 0!important;
+  }
+  body.printing-invoice .invoice-total .grand{
+    font-size:12px!important;
+    margin-top:3px!important;
+    padding-top:3px!important;
+  }
+  body.printing-invoice .invoice-footer{
+    margin-top:6px!important;
+    padding-top:5px!important;
+    font-size:8.5px!important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="mobile-shade" id="mobileShade"></div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="brand-mark">SK</div><div><strong>SỔ KHO<br>CÁ NHÂN</strong><small>Nhập · Bán · Tồn</small></div></div>
+  <div class="brand"><div class="brand-mark">SK</div><div><strong>SỔ KHO<br>CÁ NHÂN</strong><small>Nhập · Bán · Tồn V10.5</small></div></div>
   <nav class="nav" id="nav">
     <button class="active" data-page="dashboard"><span class="ico">▦</span>Tổng quan</button>
     <button data-page="customers"><span class="ico">◎</span>Khách hàng</button>
@@ -161,10 +373,10 @@
 <div class="modal hidden" id="transactionModal"><div class="dialog wide"><div class="dialog-head"><h3 id="transactionTitle">Tạo giao dịch</h3><button class="close" onclick="closeModal('transactionModal')">×</button></div><form id="transactionForm"><div class="dialog-body"><input type="hidden" id="transactionType"><div class="form-grid"><div class="field"><label>Ngày *</label><input class="input" id="transactionDate" type="date" required></div><div class="field hidden" id="partyTextField"><label id="partyLabel">Đối tác</label><input class="input" id="transactionParty" maxlength="120"></div>
 <div class="field hidden" id="supplierSelectField"><label>Nhà cung cấp</label><div class="search-picker"><div style="display:flex;gap:7px"><input class="input" id="transactionSupplierSearch" list="supplierSearchList" placeholder="Gõ mã, tên hoặc SĐT…" autocomplete="off"><select class="select hidden" id="transactionSupplier"><option value=""></option></select><button type="button" class="btn small ghost" onclick="openSupplier(true)">＋</button></div><datalist id="supplierSearchList"></datalist></div></div>
 <div class="field hidden" id="customerSelectField"><label>Khách hàng</label><div class="search-picker"><div style="display:flex;gap:7px"><input class="input" id="transactionCustomerSearch" list="customerSearchList" placeholder="Gõ mã, tên hoặc SĐT…" autocomplete="off"><select class="select hidden" id="transactionCustomer"><option value=""></option></select><button type="button" class="btn small ghost" onclick="openCustomer(true)">＋</button></div><datalist id="customerSearchList"></datalist></div></div>
-<div class="field" id="paymentField"><label>Thanh toán</label><select class="select" id="payment"><option>Đã thanh toán</option><option>Chưa thanh toán</option><option>Một phần</option></select></div>
+<div class="field" id="paymentField"><label>Thanh toán</label><select class="select" id="payment"><option>Đã thanh toán</option><option>Chưa thanh toán</option><option>Một phần</option></select></div><div class="field sale-discount-field" id="saleDiscountField"><label>Chiết khấu / giảm giá</label><input class="input" id="saleDiscount" type="number" min="0" step="1000" value="0" placeholder="0"></div>
 <div class="field hidden" id="paidAmountField"><label id="paidAmountLabel">Đã thu</label><input class="input" id="paidAmount" type="number" min="0" step="1000" value="0"></div>
 <div class="field" id="dueDateField"><label>Hạn thanh toán</label><input class="input" id="dueDate" type="date"></div>
-<div class="field"><label>Ghi chú</label><input class="input" id="transactionNote" maxlength="180"></div></div><div class="items-editor"><div class="card-head"><h3>Chi tiết hàng hóa</h3><button type="button" class="btn small ghost" onclick="addItemRow()">＋ Thêm dòng</button></div><div id="itemRows"></div><div class="item-total">Tiền hàng: <span id="transactionTotal">0 ₫</span></div></div>
+<div class="field"><label>Ghi chú</label><input class="input" id="transactionNote" maxlength="180"></div></div><div class="items-editor"><div class="card-head"><h3>Chi tiết hàng hóa</h3><button type="button" class="btn small ghost" onclick="addItemRow()">＋ Thêm dòng</button></div><div id="itemRows"></div><div class="item-total">Tiền hàng: <span id="transactionTotal">0 ₫</span></div><div class="status-line sale-discount-field" id="saleDiscountSummary" style="display:none;justify-content:space-between"><span>Chiết khấu</span><b class="negative" id="transactionDiscountTotal">0 ₫</b></div></div>
 <div class="expense-editor" id="orderExpenseEditor"><div class="card-head"><h3>Chi phí shop chịu</h3><button type="button" class="btn small ghost" onclick="addExpenseRow()">＋ Thêm chi phí</button></div><div id="expenseRowsEditor"></div><div class="expense-total">Chi phí shop chịu: <span id="transactionExpenseTotal">0 ₫</span></div><div class="profit-net">Khách phải thanh toán: <span id="transactionGrandTotal">0 ₫</span></div><div class="status-line" style="margin-top:10px;display:flex;justify-content:space-between"><span>Doanh thu sau chi phí</span><b id="transactionNetRevenue">0 ₫</b></div></div></div><div class="dialog-foot"><button type="button" class="btn ghost" onclick="closeModal('transactionModal')">Hủy</button><button class="btn orange" type="submit">Lưu giao dịch</button></div></form></div></div>
 <div class="modal hidden" id="expenseModal"><div class="dialog"><div class="dialog-head"><h3>Thêm chi phí vận hành</h3><button class="close" onclick="closeModal('expenseModal')">×</button></div><form id="expenseForm"><div class="dialog-body"><div class="form-grid"><div class="field"><label>Ngày *</label><input class="input" id="expenseDate" type="date" required></div><div class="field"><label>Loại chi phí *</label><input class="input" id="expenseCategory" list="expenseCategories" required maxlength="80" placeholder="Ví dụ: Điện, Nước, Quảng cáo…"><datalist id="expenseCategories"><option value="Điện"><option value="Nước"><option value="Internet"><option value="Quảng cáo"><option value="Phí ngân hàng"><option value="Thuê kho"><option value="Lương"><option value="Khác"></datalist></div><div class="field full"><label>Số tiền *</label><input class="input" id="expenseAmount" type="number" min="0" step="1000" required></div><div class="field full"><label>Nội dung</label><input class="input" id="expenseDescription" maxlength="180" placeholder="Ví dụ: Tiền điện tháng 9"></div></div></div><div class="dialog-foot"><button type="button" class="btn ghost" onclick="closeModal('expenseModal')">Hủy</button><button class="btn orange" type="submit">Lưu chi phí</button></div></form></div></div>
 <div class="modal hidden" id="supplierModal"><div class="dialog"><div class="dialog-head"><h3 id="supplierModalTitle">Thêm nhà cung cấp</h3><button class="close" onclick="closeModal('supplierModal')">×</button></div><form id="supplierForm"><div class="dialog-body"><input type="hidden" id="supplierId"><div class="form-grid"><div class="field"><label>Mã nhà cung cấp</label><input class="input" id="supplierCode" maxlength="30" placeholder="Tự sinh nếu bỏ trống"></div><div class="field"><label>Tên nhà cung cấp *</label><input class="input" id="supplierName" required maxlength="120"></div><div class="field"><label>Số điện thoại</label><input class="input" id="supplierPhone" maxlength="30"></div><div class="field"><label>Mã số thuế</label><input class="input" id="supplierTaxCode" maxlength="30"></div><div class="field full"><label>Địa chỉ</label><input class="input" id="supplierAddress" maxlength="200"></div><div class="field"><label>Hạn mức mua chịu</label><input class="input" id="supplierCreditLimit" type="number" min="0" step="1000" value="0"></div><div class="field"><label>Dư nợ đầu kỳ</label><input class="input" id="supplierOpeningDebt" type="number" min="0" step="1000" value="0"></div><div class="field"><label>Trạng thái</label><select class="select" id="supplierActive"><option value="true">Đang giao dịch</option><option value="false">Ngừng giao dịch</option></select></div><div class="field full"><label>Ghi chú</label><textarea class="textarea" id="supplierNote" rows="3"></textarea></div></div></div><div class="dialog-foot"><button type="button" class="btn ghost" onclick="closeModal('supplierModal')">Hủy</button><button class="btn orange" type="submit">Lưu nhà cung cấp</button></div></form></div></div>
@@ -222,6 +434,13 @@
   </div>
 </div>
 <div class="modal hidden" id="productImageViewerModal"><div class="dialog product-image-viewer-dialog"><div class="dialog-head"><div><h3 id="productImageViewerTitle">Ảnh sản phẩm</h3></div><button class="close" onclick="closeModal('productImageViewerModal')">×</button></div><div class="dialog-body product-image-viewer-body"><img id="productImageViewer" alt="Ảnh sản phẩm lớn"></div><div class="dialog-foot"><button type="button" class="btn ghost" onclick="closeModal('productImageViewerModal')">Đóng</button></div></div></div>
+<div class="modal hidden invoice-modal" id="invoiceModal">
+  <div class="dialog">
+    <div class="dialog-head"><div><h3>Hóa đơn bán lẻ</h3><div style="color:var(--muted);font-size:12px;margin-top:4px">K57 · tối ưu cho màn hình dọc</div></div><button class="close" onclick="closeInvoiceModal()">×</button></div>
+    <div class="dialog-body"><div id="invoicePaper" class="invoice-paper"></div></div>
+    <div class="invoice-print-actions"><button type="button" class="btn ghost" onclick="closeInvoiceModal()">Đóng</button><button type="button" class="btn orange" onclick="printCurrentInvoice()">🖨 In hóa đơn</button></div>
+  </div>
+</div>
 <nav class="mobile-bottom-nav" id="mobileBottomNav">
   <button data-mobile-page="dashboard"><b>⌂</b>Tổng quan</button>
   <button data-mobile-page="purchases"><b>↓</b>Nhập</button>
@@ -271,7 +490,7 @@ function migrateState(data){
     t.paidAmount=Math.min(Math.max(Number(t.paidAmount)||0,0),transactionTotal(t));
     t.dueDate=t.dueDate||'';
   });
-  data.sales.forEach(t=>{t.expenses=Array.isArray(t.expenses)?t.expenses:[];t.customerId=t.customerId||'';t.paidAmount=Math.min(Math.max(Number(t.paidAmount)||0,0),transactionTotal(t));t.dueDate=t.dueDate||''});
+  data.sales.forEach(t=>{t.expenses=Array.isArray(t.expenses)?t.expenses:[];t.customerId=t.customerId||'';t.discount=Math.max(0,Number(t.discount)||0);t.discount=Math.min(t.discount,transactionTotal(t));t.paidAmount=Math.min(Math.max(Number(t.paidAmount)||0,0),Math.max(0,transactionTotal(t)-t.discount));t.dueDate=t.dueDate||''});
   return data
 }
 function loadState(){try{const raw=localStorage.getItem(STORE_KEY);return raw?migrateState(JSON.parse(raw)):blankState()}catch(e){return blankState()}}
@@ -372,7 +591,8 @@ function transactionTotal(t){return (t.items||[]).reduce((s,i)=>s+(Number(i.qty)
 function orderExpenseTotal(t){return (t.expenses||[]).reduce((s,e)=>s+(Number(e.amount)||0),0)}
 // Tiền khách phải trả = tiền hàng. Phí ship/chi phí đơn hàng do shop chịu.
 // Vì vậy chi phí không được cộng vào công nợ hoặc tổng thanh toán của khách.
-function transactionGrandTotal(t){return transactionTotal(t)}
+function saleDiscount(t){return Math.min(Math.max(Number(t?.discount)||0,0),transactionTotal(t))}
+function transactionGrandTotal(t){return Math.max(0,transactionTotal(t)-saleDiscount(t))}
 function customerById(id){return state.customers.find(c=>c.id===id)}
 function customerName(id){return customerById(id)?.name||'Khách lẻ / chưa gán'}
 function salePaidAmount(t){return Number(t.paidAmount)||0}
@@ -892,6 +1112,8 @@ function openTransaction(type,customerId='',supplierId=''){
   $('#transactionType').value=type;$('#transactionTitle').textContent=type==='purchase'?'Tạo phiếu nhập hàng':'Tạo đơn bán hàng';
   $('#partyLabel').textContent=type==='purchase'?'Nhà cung cấp':'Khách hàng';
   $('#paymentField').classList.remove('hidden');
+  $('#saleDiscountField').style.display=type==='sale'?'block':'none';
+  $('#saleDiscountSummary').style.display=type==='sale'?'flex':'none';
   $('#partyTextField').classList.add('hidden');
   $('#supplierSelectField').classList.toggle('hidden',type!=='purchase');
   $('#customerSelectField').classList.toggle('hidden',type!=='sale');
@@ -900,16 +1122,18 @@ function openTransaction(type,customerId='',supplierId=''){
   $('#dueDateField').classList.toggle('hidden',false);
   $('#transactionDate').value=today();$('#transactionParty').value='';$('#transactionNote').value='';
   refreshTransactionPartySearches();$('#transactionSupplier').innerHTML=supplierOptions(supplierId);$('#transactionCustomer').innerHTML=customerOptions(customerId);setSupplierSearch(supplierId);setCustomerSearch(customerId);
-  $('#payment').value='Đã thanh toán';$('#paidAmount').value=0;$('#dueDate').value='';
+  $('#payment').value='Đã thanh toán';$('#paidAmount').value=0;$('#saleDiscount').value=0;$('#dueDate').value='';
   $('#itemRows').innerHTML='';$('#expenseRowsEditor').innerHTML='';$('#orderExpenseEditor').classList.toggle('hidden',type!=='sale');
   addItemRow();if(type==='sale')addExpenseRow();updateTransactionTotal();updatePaidField();openModal('transactionModal')
 }
 function updatePaidField(){
   if($('#transactionType').value!=='sale')return;
   let total=0;$$('#itemRows .item-row').forEach(r=>total+=(+r.querySelector('.item-qty').value||0)*(+r.querySelector('.item-price').value||0));
+  const discount=Math.min(Math.max(Number($('#saleDiscount').value)||0,0),total);
+  const grand=Math.max(0,total-discount);
   const status=$('#payment').value;
-  $('#paidAmount').value=status==='Đã thanh toán'?total:(status==='Chưa thanh toán'?0:Math.min(Number($('#paidAmount').value)||0,total));
-  $('#paidAmount').max=total;
+  $('#paidAmount').value=status==='Đã thanh toán'?grand:(status==='Chưa thanh toán'?0:Math.min(Number($('#paidAmount').value)||0,grand));
+  $('#paidAmount').max=grand;
 }
 
 function itemOptions(selected=''){return '<option value="">Chọn sản phẩm…</option>'+state.products.filter(p=>p.active!==false).map(p=>`<option value="${p.id}" ${p.id===selected?'selected':''}>${esc(p.sku)} — ${esc(p.name)}</option>`).join('')}
@@ -1000,7 +1224,7 @@ function selectProductFromPicker(productId){
 
 function addExpenseRow(){const row=document.createElement('div');row.className='expense-row';row.innerHTML=`<div class="field"><label>Loại</label><input class="input expense-type" list="expenseCategories" value="Phí ship" maxlength=80></div><div class="field"><label>Số tiền</label><input class="input expense-amount" type="number" min=0 step=1000 value=0></div><div class="field expense-note"><label>Ghi chú</label><input class="input expense-note-input" maxlength=120 placeholder="Không bắt buộc"></div><button type="button" class="btn danger remove-expense" title="Xóa chi phí">×</button>`;row.querySelector('.expense-amount').addEventListener('input',updateTransactionTotal);row.querySelector('.remove-expense').addEventListener('click',()=>{row.remove();updateTransactionTotal()});$('#expenseRowsEditor').appendChild(row)}
 function collectOrderExpenses(){return $$('#expenseRowsEditor .expense-row').map(r=>({id:uid('oe'),category:r.querySelector('.expense-type').value.trim()||'Khác',amount:+r.querySelector('.expense-amount').value||0,note:r.querySelector('.expense-note-input').value.trim()})).filter(e=>e.amount>0)}
-function updateTransactionTotal(){let total=0;$$('#itemRows .item-row').forEach(r=>total+=(+r.querySelector('.item-qty').value||0)*(+r.querySelector('.item-price').value||0));let ex=0;$$('#expenseRowsEditor .expense-row').forEach(r=>ex+=(+r.querySelector('.expense-amount').value||0));$('#transactionTotal').textContent=money(total);$('#transactionExpenseTotal').textContent=money(ex);$('#transactionGrandTotal').textContent=money(total);$('#transactionNetRevenue').textContent=money(Math.max(0,total-ex));updatePaidField()}
+function updateTransactionTotal(){let total=0;$$('#itemRows .item-row').forEach(r=>total+=(+r.querySelector('.item-qty').value||0)*(+r.querySelector('.item-price').value||0));let ex=0;$$('#expenseRowsEditor .expense-row').forEach(r=>ex+=(+r.querySelector('.expense-amount').value||0));const isSale=$('#transactionType').value==='sale';const discount=isSale?Math.min(Math.max(Number($('#saleDiscount').value)||0,0),total):0;const grand=Math.max(0,total-discount);$('#transactionTotal').textContent=money(total);$('#transactionExpenseTotal').textContent=money(ex);$('#transactionDiscountTotal').textContent=money(discount);$('#transactionGrandTotal').textContent=money(grand);$('#transactionNetRevenue').textContent=money(Math.max(0,grand-ex));updatePaidField()}
 $('#transactionForm').addEventListener('submit',e=>{
   e.preventDefault();const type=$('#transactionType').value;const items=[];let invalid=false;
   $$('#itemRows .item-row').forEach(r=>{const productId=r.querySelector('.item-product').value,q=+r.querySelector('.item-qty').value||0,price=+r.querySelector('.item-price').value||0;if(!productId||q<=0)invalid=true;items.push(type==='purchase'?{productId,qty:q,unitCost:price}:{productId,qty:q,unitPrice:price})});
@@ -1008,11 +1232,13 @@ $('#transactionForm').addEventListener('submit',e=>{
   const dup=items.find((x,i)=>items.findIndex(y=>y.productId===x.productId)!==i);if(dup){toast('Một sản phẩm chỉ nên xuất hiện một lần trong giao dịch.','error');return}
   if(type==='sale'){const inv=inventoryMap();const over=items.find(i=>i.qty>(inv[i.productId]?.stock||0));if(over){toast(`Không đủ tồn: ${productName(over.productId)} chỉ còn ${qty(inv[over.productId]?.stock||0)}.`,'error');return}}
   const date=$('#transactionDate').value,note=$('#transactionNote').value.trim(),total=items.reduce((s,i)=>s+i.qty*(i.unitPrice??i.unitCost),0);
+  const discount=type==='sale'?Math.min(Math.max(Number($('#saleDiscount').value)||0,0),total):0;
+  const grandTotal=Math.max(0,total-discount);
   const payment=$('#payment').value;
   let paid=Number($('#paidAmount').value)||0;
-  if(payment==='Đã thanh toán')paid=total;
+  if(payment==='Đã thanh toán')paid=grandTotal;
   if(payment==='Chưa thanh toán')paid=0;
-  if(paid>total)paid=total;
+  if(paid>grandTotal)paid=grandTotal;
   if(type==='purchase'){
     const supplierId=$('#transactionSupplier').value,s=supplierById(supplierId);
     if(payment!=='Đã thanh toán'&&!supplierId){toast('Muốn ghi công nợ nhà cung cấp, vui lòng chọn nhà cung cấp.','error');return}
@@ -1026,10 +1252,10 @@ $('#transactionForm').addEventListener('submit',e=>{
     const customerId=$('#transactionCustomer').value,c=customerById(customerId), customer=c?.name||'Khách lẻ',expenses=collectOrderExpenses();
     if(customerId && c?.creditLimit>0){
       const current=customerLedger(customerId).debt;
-      const projected=current+total-paid;
+      const projected=current+grandTotal-paid;
       if(projected>Number(c.creditLimit)){toast(`Đơn này vượt hạn mức công nợ của ${c.name}. Hạn mức còn lại khoảng ${money(Math.max(0,c.creditLimit-current))}.`,'error');return}
     }
-    state.sales.push({id:uid('bh'),code:nextCode('BH',state.sales,date),date,customer,customerId,payment,paidAmount:paid,dueDate:$('#dueDate').value,note,items,expenses,createdAt:new Date().toISOString()});
+    state.sales.push({id:uid('bh'),code:nextCode('BH',state.sales,date),date,customer,customerId,payment,paidAmount:paid,discount,dueDate:$('#dueDate').value,note,items,expenses,createdAt:new Date().toISOString()});
   }
   saveState();closeModal('transactionModal');toast(type==='purchase'?'Đã ghi nhận phiếu nhập.':'Đã ghi nhận đơn bán.','success')
 });
@@ -1041,9 +1267,9 @@ function viewTransaction(type,id){
   const rows=t.items.map(i=>`<tr><td>${esc(productName(i.productId))}</td><td class="num">${qty(i.qty)}</td><td class="num">${money(i.unitPrice??i.unitCost)}</td><td class="num"><b>${money(i.qty*(i.unitPrice??i.unitCost))}</b></td></tr>`).join('');
   const exRows=(t.expenses||[]).map(e=>`<tr><td>${esc(e.category||'Khác')}</td><td>${esc(e.note||'')}</td><td class="num"><b>${money(e.amount)}</b></td></tr>`).join('');
   const exSection=type==='sale'?`<div class="table-wrap" style="margin-top:18px"><table class="table"><thead><tr><th>Chi phí</th><th>Ghi chú</th><th class="num">Số tiền</th></tr></thead><tbody>${exRows||'<tr><td colspan="3"><div class="empty">Không có chi phí đơn hàng.</div></td></tr>'}</tbody></table></div><div class="expense-total">Chi phí shop chịu: ${money(orderExpenseTotal(t))}</div>`:'';
-  const total=transactionTotal(t),paid=Number(t.paidAmount||0),debt=Math.max(0,total-paid);
+  const total=transactionTotal(t),discount=type==='sale'?saleDiscount(t):0,grandTotal=type==='sale'?transactionGrandTotal(t):total,paid=Number(t.paidAmount||0),debt=Math.max(0,grandTotal-paid);
   const party=type==='purchase'?(t.supplierId?supplierName(t.supplierId):t.supplier):(t.customerId?customerName(t.customerId):t.customer);
-  $('#detailBody').innerHTML=`<div class="form-grid"><div><small>Ngày</small><br><b>${dateVN(t.date)}</b></div><div><small>${type==='purchase'?'Nhà cung cấp':'Khách hàng'}</small><br><b>${esc(party)}</b></div><div><small>Thanh toán</small><br><b>${esc(t.payment||'Đã thanh toán')}</b></div><div><small>${type==='purchase'?'Đã trả':'Đã thu'}</small><br><b>${money(paid)}</b></div><div class="full"><small>Ghi chú</small><br>${esc(t.note||'—')}</div></div><div class="table-wrap" style="margin-top:18px"><table class="table"><thead><tr><th>Sản phẩm</th><th class="num">SL</th><th class="num">Đơn giá</th><th class="num">Thành tiền</th></tr></thead><tbody>${rows}</tbody></table></div>${exSection}<div class="item-total">Tiền hàng: ${money(total)}</div>${type==='sale'?`<div class="expense-summary"><div><span>Khách phải thanh toán</span><b>${money(transactionGrandTotal(t))}</b></div><div><span>Đã thu</span><b>${money(paid)}</b></div><div><span>Còn nợ</span><b class="negative">${money(debt)}</b></div><div><span>Doanh thu sau chi phí</span><b>${money(Math.max(0,total-orderExpenseTotal(t)))}</b></div>${t.dueDate?`<div><span>Hạn thanh toán</span><b>${dateVN(t.dueDate)}</b></div>`:''}</div>`:`<div class="expense-summary"><div><span>Tổng tiền nhập</span><b>${money(total)}</b></div><div><span>Đã trả nhà cung cấp</span><b>${money(paid)}</b></div><div><span>Còn nợ nhà cung cấp</span><b class="negative">${money(debt)}</b></div>${t.dueDate?`<div><span>Hạn thanh toán</span><b>${dateVN(t.dueDate)}</b></div>`:''}</div>`}`;
+  $('#detailBody').innerHTML=`<div class="form-grid"><div><small>Ngày</small><br><b>${dateVN(t.date)}</b></div><div><small>${type==='purchase'?'Nhà cung cấp':'Khách hàng'}</small><br><b>${esc(party)}</b></div><div><small>Thanh toán</small><br><b>${esc(t.payment||'Đã thanh toán')}</b></div><div><small>${type==='purchase'?'Đã trả':'Đã thu'}</small><br><b>${money(paid)}</b></div><div class="full"><small>Ghi chú</small><br>${esc(t.note||'—')}</div></div><div class="table-wrap" style="margin-top:18px"><table class="table"><thead><tr><th>Sản phẩm</th><th class="num">SL</th><th class="num">Đơn giá</th><th class="num">Thành tiền</th></tr></thead><tbody>${rows}</tbody></table></div>${exSection}<div class="item-total">Tiền hàng: ${money(total)}</div>${type==='sale'?`<div class="expense-summary"><div><span>Chiết khấu</span><b class="negative">${money(discount)}</b></div><div><span>Khách phải thanh toán</span><b>${money(grandTotal)}</b></div><div><span>Đã thu</span><b>${money(paid)}</b></div><div><span>Còn nợ</span><b class="negative">${money(debt)}</b></div><div><span>Doanh thu sau chi phí</span><b>${money(Math.max(0,total-orderExpenseTotal(t)))}</b></div>${t.dueDate?`<div><span>Hạn thanh toán</span><b>${dateVN(t.dueDate)}</b></div>`:''}</div>`:`<div class="expense-summary"><div><span>Tổng tiền nhập</span><b>${money(total)}</b></div><div><span>Đã trả nhà cung cấp</span><b>${money(paid)}</b></div><div><span>Còn nợ nhà cung cấp</span><b class="negative">${money(debt)}</b></div>${t.dueDate?`<div><span>Hạn thanh toán</span><b>${dateVN(t.dueDate)}</b></div>`:''}</div>`}`;
   openModal('detailModal')
 }
 function openCustomer(fromSale=false,id=''){
@@ -1162,13 +1388,38 @@ function renderTransactions(type){
   const q=$(isP?'#purchaseSearch':'#saleSearch').value.toLowerCase();
   const filtered=list.filter(t=>`${t.code} ${isP?(supplierName(t.supplierId)+' '+(t.supplier||'')):(customerName(t.customerId)+' '+t.customer)}`.toLowerCase().includes(q));
   const html=filtered.length?filtered.map(t=>{
-    const total=transactionTotal(t);
+    const total=isP?transactionTotal(t):transactionGrandTotal(t);
     const debt=isP?Math.max(0,total-Number(t.paidAmount||0)):Math.max(0,total-salePaidAmount(t));
     const status=isP?(t.payment||'Đã thanh toán'):(t.payment||'');
-    return `<tr><td><b>${esc(t.code)}</b></td><td>${dateVN(t.date)}</td><td>${esc(isP?(t.supplierId?supplierName(t.supplierId):t.supplier):((t.customerId?customerName(t.customerId):t.customer)))}</td>${isP?`<td><span class="tag ${debt>0?'warn':'ok'}">${esc(status)}</span></td><td class="num">${debt?`<b class="negative">${money(debt)}</b>`:'—'}</td><td class="num">${t.items.length}</td>`:`<td><span class="tag ${status==='Đã thanh toán'?'ok':'warn'}">${esc(status)}</span></td>`}<td class="num">${qty(t.items.reduce((s,i)=>s+Number(i.qty),0))}</td><td class="num"><b>${money(total)}</b>${type==='sale'&&orderExpenseTotal(t)?`<small style="display:block;color:var(--red)">Chi phí ${money(orderExpenseTotal(t))}</small>`:''}</td><td class="num"><button class="btn small ghost" onclick="viewTransaction('${type}','${t.id}')">Xem</button> <button class="btn small danger" onclick="deleteTransaction('${type}','${t.id}')">Xóa</button></td></tr>`
+    return `<tr><td><b>${esc(t.code)}</b></td><td>${dateVN(t.date)}</td><td>${esc(isP?(t.supplierId?supplierName(t.supplierId):t.supplier):((t.customerId?customerName(t.customerId):t.customer)))}</td>${isP?`<td><span class="tag ${debt>0?'warn':'ok'}">${esc(status)}</span></td><td class="num">${debt?`<b class="negative">${money(debt)}</b>`:'—'}</td><td class="num">${t.items.length}</td>`:`<td><span class="tag ${status==='Đã thanh toán'?'ok':'warn'}">${esc(status)}</span></td>`}<td class="num">${qty(t.items.reduce((s,i)=>s+Number(i.qty),0))}</td><td class="num"><b>${money(total)}</b>${type==='sale'&&orderExpenseTotal(t)?`<small style="display:block;color:var(--red)">Chi phí ${money(orderExpenseTotal(t))}</small>`:''}</td><td class="num"><button class="btn small ghost" onclick="viewTransaction('${type}','${t.id}')">Xem</button> ${type==='sale'?`<button class="btn small teal" onclick="openSaleInvoice('${t.id}')">In HĐ</button> `:''}<button class="btn small danger" onclick="deleteTransaction('${type}','${t.id}')">Xóa</button></td></tr>`
   }).join(''):`<tr><td colspan="${isP?9:7}"><div class="empty"><strong>Chưa có giao dịch</strong>${isP?'Tạo phiếu nhập để tăng tồn kho.':'Tạo đơn bán khi có hàng trong kho.'}</div></td></tr>`;
   $(isP?'#purchaseRows':'#saleRows').innerHTML=html
 }
+
+let currentInvoiceSaleId='';
+function openSaleInvoice(id){
+  const t=state.sales.find(x=>x.id===id);
+  if(!t){toast('Không tìm thấy đơn bán.','error');return}
+  currentInvoiceSaleId=id;
+  renderSaleInvoice(t);
+  openModal('invoiceModal');
+}
+function closeInvoiceModal(){closeModal('invoiceModal');currentInvoiceSaleId='';}
+function renderSaleInvoice(t){
+  const rows=(t.items||[]).map((i,idx)=>`<tr><td class="stt">${idx+1}</td><td class="product">${esc(productName(i.productId))}${Number(i.qty)!==1?` × ${qty(i.qty)}`:''}</td><td class="unit-price">${money(i.unitPrice)}</td><td class="amount">${money((Number(i.qty)||0)*(Number(i.unitPrice)||0))}</td></tr>`).join('');
+  const gross=transactionTotal(t),discount=saleDiscount(t),grand=transactionGrandTotal(t);
+  const customer=t.customerId?customerName(t.customerId):(t.customer||'Khách lẻ');
+  $('#invoicePaper').innerHTML=`<div class="invoice-header"><h4>HÓA ĐƠN BÁN LẺ</h4><div>${esc(t.code)}</div><div class="invoice-meta">${dateVN(t.date)} · ${esc(customer)}</div></div><table class="invoice-table"><thead><tr><th class="stt">#</th><th class="product">Sản phẩm</th><th class="unit-price">Đơn giá</th><th class="amount">Thành tiền</th></tr></thead><tbody>${rows}</tbody></table><div class="invoice-total"><div><span>Tạm tính</span><b>${money(gross)}</b></div><div class="discount"><span>Chiết khấu</span><b>− ${money(discount)}</b></div><div class="grand"><span>TỔNG TIỀN</span><b>${money(grand)}</b></div></div><div class="invoice-footer">Cảm ơn quý khách!</div>`;
+}
+function printCurrentInvoice(){
+  const t=state.sales.find(x=>x.id===currentInvoiceSaleId);
+  if(!t){toast('Không tìm thấy đơn bán.','error');return}
+  renderSaleInvoice(t);
+  document.body.classList.add('printing-invoice');
+  setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('printing-invoice'),500)},80);
+}
+window.addEventListener('afterprint',()=>document.body.classList.remove('printing-invoice'));
+
 function openExpense(id=''){const e=(state.expenses||[]).find(x=>x.id===id);$('#expenseDate').value=e?.date||today();$('#expenseCategory').value=e?.category||'';$('#expenseAmount').value=e?.amount||0;$('#expenseDescription').value=e?.description||'';openModal('expenseModal')}
 $('#expenseForm').addEventListener('submit',e=>{e.preventDefault();const obj={id:uid('ex'),date:$('#expenseDate').value,category:$('#expenseCategory').value.trim()||'Khác',amount:+$('#expenseAmount').value||0,description:$('#expenseDescription').value.trim(),relatedSaleId:'',createdAt:new Date().toISOString()};if(obj.amount<=0){toast('Số tiền phải lớn hơn 0.','error');return}state.expenses.push(obj);saveState();closeModal('expenseModal');toast('Đã ghi nhận chi phí.','success')});
 function deleteExpense(id){if(!confirm('Xóa khoản chi phí này?'))return;state.expenses=state.expenses.filter(e=>e.id!==id);saveState();toast('Đã xóa chi phí.','success')}
@@ -1177,7 +1428,7 @@ function renderInventory(){const inv=inventoryMap(),q=$('#inventorySearch').valu
 function localDateString(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
 const today=()=>localDateString(new Date());
 function monthRange(){const d=new Date(),y=d.getFullYear(),m=d.getMonth();return[localDateString(new Date(y,m,1)),localDateString(new Date(y,m+1,0))]}
-function reportData(from,to){const sales=state.sales.filter(t=>t.date>=from&&t.date<=to),purchases=state.purchases.filter(t=>t.date>=from&&t.date<=to);const revenue=sales.reduce((s,t)=>s+transactionTotal(t),0);let cogs=0,units=0;const byProduct={};state.products.forEach(p=>byProduct[p.id]={product:p,qty:0,revenue:0,cogs:0,profit:0});sales.forEach(t=>t.items.forEach(i=>{const p=state.products.find(x=>x.id===i.productId),r=i.qty*i.unitPrice,c=i.qty*(p?.cost||0);units+=i.qty;cogs+=c;if(byProduct[i.productId]){byProduct[i.productId].qty+=i.qty;byProduct[i.productId].revenue+=r;byProduct[i.productId].cogs+=c}}));Object.values(byProduct).forEach(x=>x.profit=x.revenue-x.cogs);const orderExpenses=sales.reduce((s,t)=>s+orderExpenseTotal(t),0),operatingExpenses=operatingExpenseTotal(from,to),expenses=orderExpenses+operatingExpenses,profit=revenue-cogs,netProfit=profit-expenses;return{sales,purchases,revenue,cogs,profit,netProfit,units,orderExpenses,operatingExpenses,expenses,byProduct:Object.values(byProduct).filter(x=>x.qty>0)}}
+function reportData(from,to){const sales=state.sales.filter(t=>t.date>=from&&t.date<=to),purchases=state.purchases.filter(t=>t.date>=from&&t.date<=to);const revenue=sales.reduce((s,t)=>s+transactionGrandTotal(t),0);let cogs=0,units=0;const byProduct={};state.products.forEach(p=>byProduct[p.id]={product:p,qty:0,revenue:0,cogs:0,profit:0});sales.forEach(t=>{const gross=transactionTotal(t),discount=saleDiscount(t);t.items.forEach(i=>{const p=state.products.find(x=>x.id===i.productId),itemGross=i.qty*i.unitPrice,allocatedDiscount=gross>0?discount*(itemGross/gross):0,r=itemGross-allocatedDiscount,c=i.qty*(p?.cost||0);units+=i.qty;cogs+=c;if(byProduct[i.productId]){byProduct[i.productId].qty+=i.qty;byProduct[i.productId].revenue+=r;byProduct[i.productId].cogs+=c}})});Object.values(byProduct).forEach(x=>x.profit=x.revenue-x.cogs);const orderExpenses=sales.reduce((s,t)=>s+orderExpenseTotal(t),0),operatingExpenses=operatingExpenseTotal(from,to),expenses=orderExpenses+operatingExpenses,profit=revenue-cogs,netProfit=profit-expenses;return{sales,purchases,revenue,cogs,profit,netProfit,units,orderExpenses,operatingExpenses,expenses,byProduct:Object.values(byProduct).filter(x=>x.qty>0)}}
 function renderDashboard(){const [from,to]=monthRange(),r=reportData(from,to),inv=inventoryMap();const receivable=state.customers.reduce((s,c)=>s+customerLedger(c.id).debt,0),overdue=state.customers.reduce((s,c)=>s+customerLedger(c.id).overdue,0),payable=state.suppliers.reduce((s,sup)=>s+supplierLedger(sup.id).debt,0),stockValue=state.products.reduce((s,p)=>s+(inv[p.id]?.stock||0)*p.cost,0),low=state.products.filter(p=>(inv[p.id]?.stock||0)<=p.minStock).length;$('#dashboardKpis').innerHTML=kpiHtml([{label:'Doanh thu tháng',value:money(r.revenue),note:`${r.sales.length} đơn bán`,color:'var(--orange)'},{label:'Lợi nhuận ròng',value:money(r.netProfit),note:r.revenue?`${qty(r.netProfit/r.revenue*100)}% doanh thu`:'Chưa có doanh thu',color:'var(--teal)'},{label:'Chi phí tháng',value:money(r.expenses),note:`Đơn hàng ${money(r.orderExpenses)} · Vận hành ${money(r.operatingExpenses)}`,color:'var(--red)'},{label:'Giá trị tồn kho',value:money(stockValue),note:`${state.products.length} sản phẩm`,color:'var(--yellow)'},{label:'Công nợ phải thu',value:money(receivable),note:overdue?`Quá hạn ${money(overdue)}`:'Không có nợ quá hạn',color:'var(--red)'},{label:'Công nợ phải trả',value:money(payable),note:'Dư nợ nhà cung cấp',color:'var(--ink2)'}]);const total=Math.max(state.products.length,1),ok=state.products.length-low,zero=state.products.filter(p=>(inv[p.id]?.stock||0)<=0).length;$('#stockHealth').innerHTML=state.products.length?`<div class="stock-rail"><span style="width:${ok/total*100}%;background:var(--teal)"></span><span style="width:${(low-zero)/total*100}%;background:var(--yellow)"></span><span style="width:${zero/total*100}%;background:var(--red)"></span></div><div class="stock-legend"><span>${ok} ổn định</span><span>${low-zero} sắp hết</span><span>${zero} hết hàng</span></div><div class="list" style="margin-top:18px">${state.products.filter(p=>(inv[p.id]?.stock||0)<=p.minStock).slice(0,5).map(p=>`<div class="activity"><span class="dot" style="background:var(--red)"></span><div><b>${esc(p.name)}</b><small>${esc(p.sku)} · tối thiểu ${qty(p.minStock)}</small></div><span class="amount">${qty(inv[p.id]?.stock||0)}</span></div>`).join('')||'<div class="empty"><strong>Tồn kho đang ổn định</strong>Không có sản phẩm cần cảnh báo.</div>'}</div>`:'<div class="empty"><strong>Chưa có dữ liệu kho</strong>Thêm sản phẩm và nhập hàng để xem sức khỏe tồn kho.</div>';const activity=[...state.purchases.map(t=>({...t,_type:'purchase'})),...state.sales.map(t=>({...t,_type:'sale'}))].sort((a,b)=>(b.date+b.createdAt).localeCompare(a.date+a.createdAt)).slice(0,8);$('#recentActivity').innerHTML=activity.length?activity.map(t=>`<div class="activity ${t._type==='sale'?'sale':''}"><span class="dot"></span><div><b>${t._type==='sale'?'Bán hàng':'Nhập hàng'} · ${esc(t.code)}</b><small>${dateVN(t.date)} · ${esc(t._type==='sale'?t.customer:t.supplier)}</small></div><span class="amount">${t._type==='sale'?'+':'−'} ${money(transactionTotal(t))}</span></div>`).join(''):'<div class="empty"><strong>Chưa có hoạt động</strong>Các phiếu nhập và đơn bán mới nhất sẽ xuất hiện ở đây.</div>';const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(localDateString(d))}drawBarChart($('#salesChart'),days.map(d=>state.sales.filter(t=>t.date===d).reduce((s,t)=>s+transactionTotal(t),0)),days.map(dateVN))}
 function kpiHtml(items){return items.map(x=>`<div class="kpi" style="--accent:${x.color}"><div class="label">${esc(x.label)}</div><div class="value">${esc(x.value)}</div><div class="note">${esc(x.note)}</div></div>`).join('')}
 function drawBarChart(canvas,values,labels){if(!canvas)return;const box=canvas.getBoundingClientRect(),ratio=window.devicePixelRatio||1;canvas.width=Math.max(300,box.width)*ratio;canvas.height=Math.max(220,box.height)*ratio;const c=canvas.getContext('2d');c.scale(ratio,ratio);const w=canvas.width/ratio,h=canvas.height/ratio,p={l:52,r:12,t:16,b:42},cw=w-p.l-p.r,ch=h-p.t-p.b,max=Math.max(...values,1);c.clearRect(0,0,w,h);c.font='12px Segoe UI';c.fillStyle='#66727c';c.textAlign='right';for(let i=0;i<=4;i++){const y=p.t+ch*i/4,val=max*(1-i/4);c.strokeStyle='#ddd7cb';c.beginPath();c.moveTo(p.l,y);c.lineTo(w-p.r,y);c.stroke();c.fillText(shortMoney(val),p.l-7,y+4)}const slot=cw/values.length,bw=Math.min(42,slot*.58);values.forEach((v,i)=>{const bh=v/max*ch,x=p.l+i*slot+(slot-bw)/2,y=p.t+ch-bh;c.fillStyle=i===values.length-1?'#f26b38':'#0f8b8d';c.beginPath();roundRect(c,x,y,bw,Math.max(bh,2),5);c.fill();c.fillStyle='#66727c';c.textAlign='center';c.fillText(labels[i].slice(0,5),x+bw/2,h-17)})}
@@ -1204,7 +1455,7 @@ function setCloudStatus(s){$('#cloudStatus').textContent=s}
 function exportJson(){download(`so-kho-${today()}.json`,JSON.stringify(state,null,2),'application/json;charset=utf-8');toast('Đã tạo bản sao JSON.','success')}
 $('#jsonImport').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.products)||!Array.isArray(d.purchases)||!Array.isArray(d.sales))throw new Error('Cấu trúc không hợp lệ');d.customers=Array.isArray(d.customers)?d.customers:[];d.suppliers=Array.isArray(d.suppliers)?d.suppliers:[];d.payments=Array.isArray(d.payments)?d.payments:[];d.supplierPayments=Array.isArray(d.supplierPayments)?d.supplierPayments:[];d.expenses=Array.isArray(d.expenses)?d.expenses:[];if(confirm('Khôi phục sẽ thay thế dữ liệu hiện tại. Tiếp tục?')){const settings=state.settings;state=Object.assign(blankState(),d,{settings:d.settings||settings});saveState(false);toast('Đã khôi phục dữ liệu.','success')}}catch(err){toast('Không thể đọc tệp JSON: '+err.message,'error')}e.target.value=''})
 function resetAllData(){if(confirm('Xóa TOÀN BỘ sản phẩm, phiếu nhập, đơn bán và chi phí trên thiết bị?')&&confirm('Xác nhận lần cuối: thao tác này không thể hoàn tác nếu chưa sao lưu.')){const settings=state.settings;state=blankState();state.settings=settings;saveState(false);toast('Đã xóa toàn bộ dữ liệu.','success')}}
-function loadSampleData(){if(state.products.length||state.customers.length||state.suppliers.length||state.purchases.length||state.sales.length||state.expenses.length||state.payments.length||state.supplierPayments.length){toast('Chỉ có thể nạp mẫu khi kho đang trống.','error');return}const d=today(),p1={id:'sample_p1',sku:'SP001',barcode:'893000000001',name:'Bình giữ nhiệt 500ml',category:'Đồ gia dụng',unit:'chai',cost:120000,price:189000,minStock:5,active:true,createdAt:new Date().toISOString()},p2={id:'sample_p2',sku:'SP002',barcode:'893000000002',name:'Túi vải gấp gọn',category:'Phụ kiện',unit:'chai',cost:35000,price:69000,minStock:10,active:true,createdAt:new Date().toISOString()},p3={id:'sample_p3',sku:'SP003',barcode:'893000000003',name:'Sổ tay A5',category:'Văn phòng phẩm',unit:'quyển',cost:28000,price:55000,minStock:8,active:true,createdAt:new Date().toISOString()};const s1={id:'sample_s1',code:'NCC-0001',name:'Nhà cung cấp mẫu',phone:'0280000000',address:'TP.HCM',taxCode:'',creditLimit:10000000,openingDebt:0,active:true,note:'Nhà cung cấp mẫu',createdAt:new Date().toISOString()};const c1={id:'sample_c1',code:'KH-0001',name:'Công ty Mẫu',phone:'0900000000',address:'TP.HCM',creditLimit:5000000,openingDebt:0,active:true,note:'Khách mẫu',createdAt:new Date().toISOString()};state.customers=[c1];state.suppliers=[s1];state.payments=[];state.supplierPayments=[];state.products=[p1,p2,p3];state.purchases=[{id:'sample_pn',code:'PN-'+d.replaceAll('-','')+'-001',date:d,supplier:'Nhà cung cấp mẫu',supplierId:'sample_s1',payment:'Một phần',paidAmount:1000000,dueDate:d,note:'Dữ liệu minh họa',items:[{productId:p1.id,qty:20,unitCost:120000},{productId:p2.id,qty:35,unitCost:35000},{productId:p3.id,qty:25,unitCost:28000}],createdAt:new Date().toISOString()}];state.expenses=[{id:'sample_ex2',date:d,category:'Điện',amount:500000,description:'Chi phí điện mẫu',relatedSaleId:'',createdAt:new Date().toISOString()}];state.sales=[{id:'sample_bh',code:'BH-'+d.replaceAll('-','')+'-001',date:d,customer:'Công ty Mẫu',customerId:'sample_c1',payment:'Một phần',paidAmount:500000,dueDate:d,note:'Dữ liệu minh họa',items:[{productId:p1.id,qty:3,unitPrice:189000},{productId:p2.id,qty:5,unitPrice:69000}],expenses:[{id:'sample_oe1',category:'Phí ship',amount:30000,note:'Phí giao hàng mẫu'}],createdAt:new Date().toISOString()}];saveState(false);toast('Đã nạp dữ liệu mẫu.','success')}
+function loadSampleData(){if(state.products.length||state.customers.length||state.suppliers.length||state.purchases.length||state.sales.length||state.expenses.length||state.payments.length||state.supplierPayments.length){toast('Chỉ có thể nạp mẫu khi kho đang trống.','error');return}const d=today(),p1={id:'sample_p1',sku:'SP001',barcode:'893000000001',name:'Bình giữ nhiệt 500ml',category:'Đồ gia dụng',unit:'chai',cost:120000,price:189000,minStock:5,active:true,createdAt:new Date().toISOString()},p2={id:'sample_p2',sku:'SP002',barcode:'893000000002',name:'Túi vải gấp gọn',category:'Phụ kiện',unit:'chai',cost:35000,price:69000,minStock:10,active:true,createdAt:new Date().toISOString()},p3={id:'sample_p3',sku:'SP003',barcode:'893000000003',name:'Sổ tay A5',category:'Văn phòng phẩm',unit:'quyển',cost:28000,price:55000,minStock:8,active:true,createdAt:new Date().toISOString()};const s1={id:'sample_s1',code:'NCC-0001',name:'Nhà cung cấp mẫu',phone:'0280000000',address:'TP.HCM',taxCode:'',creditLimit:10000000,openingDebt:0,active:true,note:'Nhà cung cấp mẫu',createdAt:new Date().toISOString()};const c1={id:'sample_c1',code:'KH-0001',name:'Công ty Mẫu',phone:'0900000000',address:'TP.HCM',creditLimit:5000000,openingDebt:0,active:true,note:'Khách mẫu',createdAt:new Date().toISOString()};state.customers=[c1];state.suppliers=[s1];state.payments=[];state.supplierPayments=[];state.products=[p1,p2,p3];state.purchases=[{id:'sample_pn',code:'PN-'+d.replaceAll('-','')+'-001',date:d,supplier:'Nhà cung cấp mẫu',supplierId:'sample_s1',payment:'Một phần',paidAmount:1000000,dueDate:d,note:'Dữ liệu minh họa',items:[{productId:p1.id,qty:20,unitCost:120000},{productId:p2.id,qty:35,unitCost:35000},{productId:p3.id,qty:25,unitCost:28000}],createdAt:new Date().toISOString()}];state.expenses=[{id:'sample_ex2',date:d,category:'Điện',amount:500000,description:'Chi phí điện mẫu',relatedSaleId:'',createdAt:new Date().toISOString()}];state.sales=[{id:'sample_bh',code:'BH-'+d.replaceAll('-','')+'-001',date:d,customer:'Công ty Mẫu',customerId:'sample_c1',payment:'Một phần',paidAmount:500000,dueDate:d,note:'Dữ liệu minh họa',discount:0,items:[{productId:p1.id,qty:3,unitPrice:189000},{productId:p2.id,qty:5,unitPrice:69000}],expenses:[{id:'sample_oe1',category:'Phí ship',amount:30000,note:'Phí giao hàng mẫu'}],createdAt:new Date().toISOString()}];saveState(false);toast('Đã nạp dữ liệu mẫu.','success')}
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff',content],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 function openProductImport(){
   productImportRows=[];
@@ -1345,7 +1596,7 @@ $$('#mobileBottomNav button[data-mobile-page]').forEach(b=>b.addEventListener('c
 $('#mobileScanBtn')?.addEventListener('click',()=>openBarcodeScanner({mode:'global'}));
 $('#scanProductBarcodeBtn')?.addEventListener('click',()=>openBarcodeScanner({mode:'productForm'}));
 $('#scannerRetryBtn')?.addEventListener('click',()=>startBarcodeScanner());
-$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)navigate(b.dataset.page)});$('#quickPurchase').onclick=()=>openTransaction('purchase');$('#quickSale').onclick=()=>openTransaction('sale');$('#menuBtn').onclick=()=>{$('#sidebar').classList.add('open');$('#mobileShade').classList.add('show')};$('#mobileShade').onclick=()=>{$('#sidebar').classList.remove('open');$('#mobileShade').classList.remove('show')};['customerSearch','customerDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderCustomers));['supplierSearch','supplierDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderSuppliers));['productSearch','categoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderProducts));$('#purchaseSearch').addEventListener('input',()=>renderTransactions('purchase'));$('#saleSearch').addEventListener('input',()=>renderTransactions('sale'));$('#payment').addEventListener('change',updatePaidField);$('#paidAmount').addEventListener('input',updatePaidField);['expenseSearch','expenseCategoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderExpenses));['inventorySearch','stockFilter'].forEach(id=>$('#'+id).addEventListener('input',renderInventory));$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){if(m.id==='barcodeScannerModal')closeBarcodeScanner();else closeModal(m.id)}}));
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)navigate(b.dataset.page)});$('#quickPurchase').onclick=()=>openTransaction('purchase');$('#quickSale').onclick=()=>openTransaction('sale');$('#menuBtn').onclick=()=>{$('#sidebar').classList.add('open');$('#mobileShade').classList.add('show')};$('#mobileShade').onclick=()=>{$('#sidebar').classList.remove('open');$('#mobileShade').classList.remove('show')};['customerSearch','customerDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderCustomers));['supplierSearch','supplierDebtFilter'].forEach(id=>$('#'+id).addEventListener('input',renderSuppliers));['productSearch','categoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderProducts));$('#purchaseSearch').addEventListener('input',()=>renderTransactions('purchase'));$('#saleSearch').addEventListener('input',()=>renderTransactions('sale'));$('#payment').addEventListener('change',updatePaidField);$('#paidAmount').addEventListener('input',updatePaidField);$('#saleDiscount').addEventListener('input',updateTransactionTotal);['expenseSearch','expenseCategoryFilter'].forEach(id=>$('#'+id).addEventListener('input',renderExpenses));['inventorySearch','stockFilter'].forEach(id=>$('#'+id).addEventListener('input',renderInventory));$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){if(m.id==='barcodeScannerModal')closeBarcodeScanner();else closeModal(m.id)}}));
 window.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     if(!$('#barcodeScannerModal').classList.contains('hidden'))closeBarcodeScanner();
